@@ -15,5 +15,5 @@
 I would recommend you to use JetBrains IDE for java, since I've used this IDE at developing, exactly you can use any other IDE for java, but there can be some problems at deploying.
 
 ## Notice
-I've used java correto SDK version 11.0.16 
+I've used java Amazon correto SDK version 11.0.16 
 
