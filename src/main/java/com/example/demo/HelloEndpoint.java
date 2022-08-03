@@ -1,10 +1,8 @@
 package com.example.demo;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import jakarta.servlet.http.*;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 
@@ -26,6 +24,7 @@ public class HelloEndpoint{
     public void onMessage(String message, Session session) throws IOException {
         System.out.printf("Message received, Session id: %s Message: %s\n",
                 session.getId(),message);
+
 
         int startInd = message.indexOf("{");
         int endInd = message.indexOf("}");
@@ -68,13 +67,8 @@ public class HelloEndpoint{
                 ex.printStackTrace();
             }
         } else{
-            try {
-                session.getBasicRemote().sendText("Not expected function\nThere only command \"addLog\" and \"logs\"");
-                Error e = new Error("Not expected function");
+                Error e = new Error("Not expected function\nThere only command \"addLog\" and \"logs\"");
                 onError(e,session);
-            } catch (IOException ex){
-                ex.printStackTrace();
-            }
         }
     }
 
@@ -89,7 +83,14 @@ public class HelloEndpoint{
     }
 
     @OnClose
-    public void onClose(Session session){System.out.printf("Session %s closed\n", session.getId());}
+    public void onClose(Session session){
+        System.out.printf("Session %s closed\n", session.getId());
+        try {
+            session.getBasicRemote().sendText("Session "+session.getId()+" closed\n");
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
 
 
 }
