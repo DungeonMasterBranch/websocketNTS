@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="websocket.js"></script>
+    <title>WebSocket</title>
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="addLog">
+        <div class="button"> <a href="#" OnClick="showForm()">New Log</a> </div>
+        <form id="addLogForm">
+            <span>Description:<br />
+                <textarea name="description" id="logContent" rows="2" cols="50"></textarea>
+            </span>
+            <br /><input type="button" class="button" value="Add" onclick=formSubmit()>
+            <br /><input type="reset" class="button" value="Cancel" onclick=hideForm()>
+        </form>
+    </div>
+
+    <br />
+<form>
+    <div class="button"> <a href="#" OnClick="onLogMessage()">Log List</a> </div>
+    <div id="logList">
+
+    </div>
+</form>
+</div>
+
+</body>
+</html>
