@@ -4,7 +4,6 @@ public class MessageModel {
     private String command;
     private String content;
 
-
     public String getCommand() {
         return command;
     }

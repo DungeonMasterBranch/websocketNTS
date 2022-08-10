@@ -14,7 +14,7 @@ public class HelloEndpoint{
     public void onOpen(Session session){
         System.out.printf("Session opened, id: %s\n",session.getId());
         try {
-            session.getBasicRemote().sendText("{\"command\":\"comment\",\"content\":\"Successfully connection\"}");
+            session.getBasicRemote().sendText("Successfully connection");
         }catch (IOException ex){
             ex.printStackTrace();
         }
@@ -37,7 +37,7 @@ public class HelloEndpoint{
         for (String word : arrOfStr) {
             int splitter = word.indexOf(":");
             String first = word.substring(0,splitter).trim();
-            String second = word.substring(splitter+2,word.length()-1).trim();
+            String second = word.substring(splitter+1,word.length()).trim();
 
             if (first.equals("\"command\"") || first.equals("command")){
                 received.setCommand(second);
@@ -51,11 +51,9 @@ public class HelloEndpoint{
 
         if (received.getCommand().equals("\"logs\"") || received.getCommand().equals("logs")){
             try {
-                String result = "";
                 for (String log : logs) {
-                    result += log+"<br>";
+                    session.getBasicRemote().sendText(log+"\n");
                 }
-                session.getBasicRemote().sendText("{\"command\":\"logs\",\"content\":\""+result+"\"}");
                 System.out.println("Log list sent");
             }catch (IOException ex){
                 ex.printStackTrace();
@@ -63,7 +61,7 @@ public class HelloEndpoint{
         } else if (received.getCommand().equals("\"addLog\"") || received.getCommand().equals("addLog")) {
             logs.add(received.getContent());
             try {
-                session.getBasicRemote().sendText("{\"command\":\"addLog\",\"content\":\""+received.getContent()+"\"}");
+                session.getBasicRemote().sendText("Log "+received.getContent()+" added\n");
                 System.out.println("Log registration");
             } catch (IOException ex){
                 ex.printStackTrace();
@@ -77,7 +75,7 @@ public class HelloEndpoint{
     @OnError
     public void onError(Throwable e, Session session){
         try {
-            session.getBasicRemote().sendText("{\"command\":\"comment\",\"content\":\""+e.getMessage()+"\"}");
+            session.getBasicRemote().sendText(e.getMessage());
         } catch (IOException ex){
             e.printStackTrace();
             ex.printStackTrace();
@@ -88,8 +86,7 @@ public class HelloEndpoint{
     public void onClose(Session session){
         System.out.printf("Session %s closed\n", session.getId());
         try {
-            String comment = "Session "+session.getId()+" closed";
-            session.getBasicRemote().sendText("{\"command\":\"comment\",\"content\":\""+comment+"\"}");
+            session.getBasicRemote().sendText("Session "+session.getId()+" closed\n");
         } catch (IOException ex){
             ex.printStackTrace();
         }
